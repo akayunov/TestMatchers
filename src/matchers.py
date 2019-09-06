@@ -19,6 +19,12 @@ class MatcherJsonEnc(json.JSONEncoder):
         if isinstance(o, (UserDict, UserList)):
             return o.data
         elif isinstance(o, (MatchedObjFullValue,)):
+            if not IS_FAKE_MODE:
+                date = o.parse_datetime(o.value)
+                if type(date) is datetime:  # pylint: disable=unidiomatic-typecheck
+                    return f'Date should be between {o.context["test_start_time_str"]} and {o.context["step_end_time_str"]}'
+                else:
+                    return o.value
             return o.value
         else:
             return str(o)
