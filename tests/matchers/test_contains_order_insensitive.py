@@ -279,3 +279,12 @@ class TestList:
         ], {}, {})
         got = [[1, 2], [1], [3]]
         assert expected.match(got)
+
+    @pytest.mark.xfail(
+        reason='__eq__ function of MatchedObjContainsOrderInsensitiveList not completed. Will be fixed in future')
+    def test_collection_of_collections_with_greedy_matchers(self):
+        expected = MatcherContainsOrderInsensitive([
+            [[1], [2], [3]]
+        ], {}, {})
+        got = [[1, 2, 3], [1, 4], [1, 2]]
+        assert expected.match(got)
